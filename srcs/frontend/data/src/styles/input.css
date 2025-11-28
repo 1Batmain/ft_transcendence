@@ -3,3 +3,95 @@
 /* Scan all source files for classes */
 @source "../**/*.html";
 @source "../**/*.ts";
+
+/* ============================================
+   CUSTOM FONTS - Arcade/Gaming Theme
+   ============================================ */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ============================================
+   CSS CUSTOM PROPERTIES
+   ============================================ */
+:root {
+  /* Accent Colors - Rose to match intro */
+  --accent-primary: #F43F5E;
+  --accent-primary-hover: #FB7185;
+  --accent-primary-glow: rgba(244, 63, 94, 0.4);
+
+  /* Status Colors */
+  --status-online: #22C55E;
+  --status-offline: #6B7280;
+  --status-ingame: #F59E0B;
+
+  /* Surfaces */
+  --bg-deep: #0A0A0F;
+  --bg-base: #12121A;
+  --bg-elevated: #1A1A24;
+  --bg-card: rgba(26, 26, 36, 0.6);
+
+  /* Borders */
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-default: rgba(255, 255, 255, 0.1);
+  --border-accent: rgba(255, 107, 53, 0.3);
+
+  /* Text */
+  --text-primary: #FFFFFF;
+  --text-secondary: #A1A1AA;
+  --text-muted: #71717A;
+
+  /* Shadows */
+  --shadow-glow: 0 0 40px rgba(244, 63, 94, 0.15);
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg-deep);
+  color: var(--text-primary);
+}
+
+/* Background with depth */
+.app-background {
+  background:
+    /* Vignette */
+    radial-gradient(ellipse at center, transparent 0%, var(--bg-deep) 70%),
+    /* Central glow - subtle rose */
+    radial-gradient(ellipse 80% 50% at 50% 50%, rgba(244, 63, 94, 0.02) 0%, transparent 50%),
+    /* Base gradient */
+    linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-base) 100%);
+  position: relative;
+}
+
+/* Noise texture overlay */
+.app-background::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.015;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+.font-display {
+  font-family: 'Orbitron', monospace;
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #F43F5E 0%, #FB7185 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Tabular numbers for stats */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
