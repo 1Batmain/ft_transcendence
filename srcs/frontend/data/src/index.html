@@ -5,10 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ft_transcendance</title>
 
-  <!-- Tailwind compiled CSS -->
-  <link rel="stylesheet" href="/css/style.css" />
-
-  <!-- Custom Styles -->
+  <!-- Vite will process these imports -->
+  <link rel="stylesheet" href="/styles/input.css" />
   <link rel="stylesheet" href="/css/animations.css" />
   <link rel="stylesheet" href="/css/components.css" />
 </head>
@@ -38,7 +36,7 @@
   <!-- App Container -->
   <div id="app" class="relative z-10"></div>
 
-  <!-- Script -->
-  <script src="/js/app.js"></script>
+  <!-- Script - Vite uses type="module" -->
+  <script type="module" src="/app.ts"></script>
 </body>
 </html>
