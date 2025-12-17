@@ -4,9 +4,9 @@ services:
     init: true
     env_file:
       - .env
-    build: 
+    build:
       context: backend/proxy
-    networks:  
+    networks:
       - transcendence
     ports:
       - 8080:8080
@@ -15,23 +15,23 @@ services:
       - ./backend/shared/:/data/src/shared:ro
       - ./frontend/:/frontend
     restart: always
-    
+
   authenticate:
     container_name: authenticate
     init: true
     env_file:
       - .env
-    build: 
+    build:
       context: backend/authenticate
     expose:
       - 3000
-    networks:  
+    networks:
       - transcendence
     volumes:
       - ./backend/authenticate/data:/data
       - ./backend/shared/:/data/src/shared:ro
     restart: always
-  
+
   user:
     container_name: user
     init: true
@@ -41,13 +41,13 @@ services:
       context: backend/user
     expose:
       - 3000
-    networks:  
+    networks:
       - transcendence
     volumes:
       - ./backend/user/data:/data
       - ./backend/shared/:/data/src/shared:ro
     restart: always
-  
+
   game:
     container_name: game
     init: true
@@ -57,7 +57,7 @@ services:
       context: backend/game
     expose:
       - 3000
-    networks:  
+    networks:
       - transcendence
     volumes:
       - ./backend/game/data:/data
@@ -72,10 +72,26 @@ services:
       context: backend/database
     expose:
       - 3000
-    networks:  
+    networks:
       - transcendence
     volumes:
       - ./backend/database/data:/data
+      - ./backend/shared/:/data/src/shared:ro
+    restart: always
+
+  blockchain:
+    container_name: blockchain
+    init: true
+    env_file:
+      - .env
+    build:
+      context: backend/blockchain
+    expose:
+      - 3000
+    networks:
+      - transcendence
+    volumes:
+      - ./backend/blockchain/data:/data
       - ./backend/shared/:/data/src/shared:ro
     restart: always
 
@@ -88,7 +104,7 @@ services:
       context: frontend
     expose:
       - 3000
-    networks:  
+    networks:
       - transcendence
     volumes:
       - ./frontend/data:/data
