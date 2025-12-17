@@ -1,0 +1,39 @@
+{
+  "_format": "hh3-sol-build-info-1",
+  "id": "solc-0_8_28-332fae7316444ed8e849cd6e703384023f2cd343",
+  "solcVersion": "0.8.28",
+  "solcLongVersion": "0.8.28+commit.7893614a",
+  "userSourceNameMap": {
+    "contracts/TournamentScores.sol": "project/contracts/TournamentScores.sol"
+  },
+  "input": {
+    "language": "Solidity",
+    "settings": {
+      "evmVersion": "cancun",
+      "optimizer": {
+        "enabled": true,
+        "runs": 200
+      },
+      "outputSelection": {
+        "*": {
+          "": [
+            "ast"
+          ],
+          "*": [
+            "abi",
+            "evm.bytecode",
+            "evm.deployedBytecode",
+            "evm.methodIdentifiers",
+            "metadata"
+          ]
+        }
+      },
+      "remappings": []
+    },
+    "sources": {
+      "project/contracts/TournamentScores.sol": {
+        "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.20;\n\ncontract TournamentScores {\n    address public owner;\n\n    struct Result {\n        bool exists;\n        uint256 finalizedAt;\n        string tournamentId;\n        string winnerAlias;\n        uint16 scoreLeft;\n        uint16 scoreRight;\n    }\n\n    mapping(bytes32 => Result) private results;\n\n    event TournamentFinalized(\n        bytes32 indexed tournamentKey,\n        string tournamentId,\n        string winnerAlias,\n        uint16 scoreLeft,\n        uint16 scoreRight,\n        uint256 finalizedAt\n    );\n\n    modifier onlyOwner() {\n        require(msg.sender == owner, \"Not owner\");\n        _;\n    }\n\n    constructor() {\n        owner = msg.sender;\n    }\n\n    function _key(string memory tournamentId) internal pure returns (bytes32) {\n        return keccak256(bytes(tournamentId));\n    }\n\n    function finalizeTournament(\n        string calldata tournamentId,\n        string calldata winnerAlias,\n        uint16 scoreLeft,\n        uint16 scoreRight\n    ) external onlyOwner {\n        bytes32 key = _key(tournamentId);\n        require(!results[key].exists, \"Already finalized\");\n\n        results[key] = Result({\n            exists: true,\n            finalizedAt: block.timestamp,\n            tournamentId: tournamentId,\n            winnerAlias: winnerAlias,\n            scoreLeft: scoreLeft,\n            scoreRight: scoreRight\n        });\n\n        emit TournamentFinalized(\n            key,\n            tournamentId,\n            winnerAlias,\n            scoreLeft,\n            scoreRight,\n            block.timestamp\n        );\n    }\n\n    function getTournament(string calldata tournamentId)\n        external\n        view\n        returns (\n            bool exists,\n            uint256 finalizedAt,\n            string memory winnerAlias,\n            uint16 scoreLeft,\n            uint16 scoreRight\n        )\n    {\n        bytes32 key = _key(tournamentId);\n        Result storage r = results[key];\n        return (r.exists, r.finalizedAt, r.winnerAlias, r.scoreLeft, r.scoreRight);\n    }\n}\n"
+      }
+    }
+  }
+}
